@@ -8,9 +8,10 @@ import requests
 from datetime import datetime, timedelta, timezone
 
 class fingridVariable():
-	def __init__(self, id, string):
+	def __init__(self, id, string, name):
 		self.id = id
 		self.string = string
+		self.name = name
 		self.data = None
 
 	def to_path(self):
@@ -26,15 +27,15 @@ class fingridApi():
 		
 		# Variable IDs for different data
 		self.vars = []
-		self.vars.append(fingridVariable(id=192, string="production"))
-		self.vars.append(fingridVariable(id=193, string="consumption")) 
-		self.vars.append(fingridVariable(id=194, string="import"))
-		self.vars.append(fingridVariable(id=195, string="import_russia"))
-		self.vars.append(fingridVariable(id=180, string="import_estonia"))
-		self.vars.append(fingridVariable(id=187, string="import_norway"))
-		self.vars.append(fingridVariable(id=87,  string="import_sweden"))
-		self.vars.append(fingridVariable(id=89,  string="import_sweden_mid"))
-		self.vars.append(fingridVariable(id=90,  string="import_sweden_aland"))
+		self.vars.append(fingridVariable(id=192, string="production",          name="Tuotanto"))
+		self.vars.append(fingridVariable(id=193, string="consumption",         name="Kulutus")) 
+		self.vars.append(fingridVariable(id=194, string="import",              name="Tuonti"))
+		self.vars.append(fingridVariable(id=195, string="import_russia",       name="Tuonti Venäjältä"))
+		self.vars.append(fingridVariable(id=180, string="import_estonia",      name="Tuonti Virosta"))
+		self.vars.append(fingridVariable(id=187, string="import_norway",       name="Tuonti Norjasta"))
+		self.vars.append(fingridVariable(id=87,  string="import_sweden",       name="Tuonti Pohjois-Ruotsista"))
+		self.vars.append(fingridVariable(id=89,  string="import_sweden_mid",   name="Tuonti Keski-Ruotsista"))
+		self.vars.append(fingridVariable(id=90,  string="import_sweden_aland", name="Tuonti Ruotsista (Ahv.m.)"))
 		
 
 		self.interval = interval
@@ -82,6 +83,7 @@ class fingridApi():
 			self.data[var.string] = {}
 			self.data[var.string]["values"] = [d["value"] for d in var.data]
 			self.data[var.string]["time"] = [(datetime.strptime(d["start_time"], self.t_format) - t0).total_seconds() / 3600 for d in var.data]
+			self.data[var.string]["name"] = var.name
 		
 		# import pdb; pdb.set_trace()
 		
