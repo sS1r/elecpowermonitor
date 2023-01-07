@@ -29,15 +29,17 @@ def plot_data(data):
 	plt.figure()
 
 	ax = plt.subplot(2,1,1)
+	ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter("%H:%M"))
 	plot_overall(data)
 
-	plt.subplot(2,1,2)
+	ax = plt.subplot(2,1,2)
+	ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter("%H:%M"))
 	plot_import(data)
 
 	# Adds space between the subplots
 	plt.tight_layout(h_pad=-2.0)
 
-	plt.show()
+	plt.show(block=False)
 
 def plot_elecprice(data):
 

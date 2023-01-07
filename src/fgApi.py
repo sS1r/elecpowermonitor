@@ -82,7 +82,7 @@ class fingridApi():
 			t0 = datetime.strptime(var.data[0]["start_time"], self.t_format)
 			self.data[var.string] = {}
 			self.data[var.string]["values"] = [d["value"] for d in var.data]
-			self.data[var.string]["time"] = [(datetime.strptime(d["start_time"], self.t_format) - t0).total_seconds() / 3600 for d in var.data]
+			self.data[var.string]["time"] = [datetime.strptime(d["start_time"], self.t_format) for d in var.data]
 			self.data[var.string]["name"] = var.name
 		
 		# import pdb; pdb.set_trace()
