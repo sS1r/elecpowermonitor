@@ -110,9 +110,7 @@ class entsoeApi():
 		params["periodStart"] = t_start_str
 		params["periodEnd"] = t_end_str
 
-		url = self.url
-		# import pdb; pdb.set_trace()
-		resp = requests.get(url=url, headers=headers, params=params)
+		resp = requests.get(url=self.url, headers=headers, params=params)
 		if resp.status_code != 200:
 			return False
 
@@ -122,10 +120,8 @@ class entsoeApi():
 	def send_request(self):
 		t_end = datetime.now(timezone.utc).astimezone() + timedelta(days=1)
 		t_start = t_end - timedelta(hours=48)
+		return self.fetch_data(t_start, t_end)
 
-		if not self.fetch_data(t_start, t_end):
-			return False
-		return True
 
 	def get_data(self):
 		return self.data
