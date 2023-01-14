@@ -24,6 +24,7 @@ class fingridApi():
 		self.api_key = api_key
 		self.ready = False
 		self.data = {}
+		self.name = "Fingrid"
 		
 		# Variable IDs for different data
 		self.vars = []

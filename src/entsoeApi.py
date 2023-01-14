@@ -48,6 +48,7 @@ class entsoeApi():
 		self.country_code = "10YFI-1--------U"
 		self.t_format = "%Y%m%d%H00"
 		self.vat = vat
+		self.name = "ENTSOE"
 
 	def parse_data(self, data):
 		root = ET.fromstring(data)
