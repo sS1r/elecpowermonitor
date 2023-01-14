@@ -87,9 +87,11 @@ class fingridApi():
 			self.data[var.string]["time"] = [datetime.strptime(d["start_time"], self.t_format) for d in var.data]
 			self.data[var.string]["name"] = var.name
 		
-		# import pdb; pdb.set_trace()
-		
 		return True
-		
+
 	def get_data(self):
 		return self.data
+
+	def save_data(self, filename, format):
+		if self.data:
+			pass

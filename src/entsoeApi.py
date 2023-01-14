@@ -124,6 +124,13 @@ class entsoeApi():
 		t_start = t_end - timedelta(hours=48)
 		return self.fetch_data(t_start, t_end)
 
-
 	def get_data(self):
 		return self.data
+
+	def save_data(self, filename, format):
+		if self.data:
+			pass
+
+	# Todo
+	def server_up(self):
+		return True
