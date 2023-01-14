@@ -59,6 +59,7 @@ class fingridApi():
 		
 		resp = requests.get(url=url, headers=headers, params=params)
 		if resp.status_code != 200:
+			print("fingridApi: Received HTTP status code {:d}!".format(resp.status_code))
 			return False
 		
 		var.data = resp.json()

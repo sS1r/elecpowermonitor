@@ -113,6 +113,7 @@ class entsoeApi():
 
 		resp = requests.get(url=self.url, headers=headers, params=params)
 		if resp.status_code != 200:
+			print("entsoeApi: Received HTTP status code {:d}!".format(resp.status_code))
 			return False
 
 		self.data = self.parse_data(resp.text)
