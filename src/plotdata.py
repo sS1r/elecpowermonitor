@@ -39,7 +39,7 @@ def plot_data(data):
 	# Adds space between the subplots
 	plt.tight_layout(h_pad=-2.0)
 
-	plt.show(block=False)
+	plt.show()
 
 def plot_elecprice(data):
 
