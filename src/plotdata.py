@@ -51,8 +51,8 @@ def plot_elecprice(data, hide=False, fname=None):
 	nowstr = now.strftime("%d.%m.%Y klo %H:%M")
 	for t in data.data.index:
 		if t.replace(tzinfo=None) > now:
-			i_nearest = data.time.index(t) - 1
-			t_nearest = data.time[i_nearest].replace(tzinfo=None)
+			i_nearest = data.data.index.get_loc(t) - 1
+			t_nearest = data.data.index[i_nearest].replace(tzinfo=None)
 			t_next = t
 			break
 	pricenow = data.data["price"][i_nearest]
