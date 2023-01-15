@@ -21,7 +21,7 @@ jobs:
     - name: Setup
       run: |
         sudo timedatectl set-timezone Europe/Helsinki
-        python3 -m pip install numpy matplotlib requests
+        python3 -m pip install pandas matplotlib requests
 
     - name: Make output dir
       run: mkdir output

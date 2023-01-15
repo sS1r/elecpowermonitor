@@ -7,7 +7,7 @@ Huomioithan, että pörssisähkön hintatiedot EIVÄT tällä hetkellä sisäll�
 
 ## Vaatimukset
 Python-tulkki tulee olla asennettuna. Lisäksi seuraavat paketit vaaditaan:
-- numpy
+- pandas
 - requests
 - matlplotlib
 
