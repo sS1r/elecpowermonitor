@@ -80,8 +80,9 @@ class entsoeApi():
 			t_end_str = interval.find("ns:end", namespaces=ns).text
 
 			# Resolve time from the strings (ISO format)
-			t_start = datetime.fromisoformat(t_start_str)
-			t_end = datetime.fromisoformat(t_end_str)
+			t_str_format = "%Y-%m-%dT%H:%MZ"
+			t_start = datetime.strptime(t_start_str, t_str_format)
+			t_end = datetime.strptime(t_end_str, t_str_format)
 
 			# Find points from period
 			points = period[0].findall("ns:Point", namespaces=ns)
