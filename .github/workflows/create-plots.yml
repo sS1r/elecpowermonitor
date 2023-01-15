@@ -1,0 +1,42 @@
+name: Create plots
+
+on:
+  push:
+    branches: master
+  schedule:
+    - cron: '00 12 * * *'
+
+jobs:
+  run:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Check versions
+      run: | 
+        python3 --version
+
+    - name: Setup
+      run: |
+        sudo timedatectl set-timezone Europe/Helsinki
+        python3 -m pip install numpy matplotlib requests
+
+    - name: Make output dir
+      run: mkdir output
+
+    - name: Run
+      env:
+        FG_API_KEY: ${{ secrets.FG_API_KEY }}
+        ENTSOE_API_KEY: ${{ secrets.ENTSOE_API_KEY }}
+      run: |
+        datestring=`date +"%Y%m%d_%H%M"`
+        python3 src/main.py --api-key $ENTSOE_API_KEY price   plot --hide --save output/${datestring}_price.png
+        python3 src/main.py --api-key $FG_API_KEY     fingrid plot --hide --save output/${datestring}_status.png
+
+    - name: Upload images
+      uses: actions/upload-artifact@v3
+      with:
+       name: Images
+       path: output
