@@ -8,7 +8,7 @@ PLOT_IMPORT =  ['import_russia', 'import_estonia', 'import_sweden', 'import_swed
 def plot_overall(data):
 	for name in PLOT_OVERALL:
 		plt.plot(data[name]['time'], data[name]['values'], label=data[name]['name'])
-	plt.legend(loc='upper right')
+	plt.legend(loc='upper left')
 	plt.title("Yleiskatsaus", fontsize=20)
 	plt.xlabel("Aika (h)", fontsize=14)
 	# ax.xaxis.labelpad=-5
@@ -18,15 +18,15 @@ def plot_overall(data):
 def plot_import(data):
 	for name in PLOT_IMPORT:
 		plt.plot(data[name]['time'], data[name]['values'], label=data[name]['name'])
-	plt.legend(loc='upper right')
+	plt.legend(loc='upper left')
 	plt.title("Tuonnin erittely", fontsize=20)
 	plt.xlabel("Aika (h)", fontsize=14)
 	plt.ylabel("Teho (MW)", fontsize=14)
 	plt.grid(True)
 
-def plot_data(data):
+def plot_data(data, hide=False, fname=None):
 
-	plt.figure()
+	plt.figure(figsize=(19.2, 10.8), dpi=100.0)
 
 	ax = plt.subplot(2,1,1)
 	ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter("%H:%M"))
@@ -37,11 +37,15 @@ def plot_data(data):
 	plot_import(data)
 
 	# Adds space between the subplots
-	plt.tight_layout(h_pad=-2.0)
+	plt.tight_layout(h_pad=1.0)
 
-	plt.show()
+	if fname:
+		plt.savefig(fname)
 
-def plot_elecprice(data):
+	if not hide:
+		plt.show()
+
+def plot_elecprice(data, hide=False, fname=None):
 
 	now = datetime.now()
 	nowstr = now.strftime("%d.%m.%Y klo %H:%M")
@@ -56,7 +60,7 @@ def plot_elecprice(data):
 
 	#import pdb; pdb.set_trace()
 
-	fig, ax = plt.subplots()
+	fig, ax = plt.subplots(figsize=(19.2, 10.8), dpi=100.0)
 	plt.plot(data.time, data.prices, label="Sähkön hinta")
 	plt.axvline(x=now,      color='r', linestyle='--', label="Nyt")
 	plt.axhline(y=pricenow, color='b', linestyle='--', label="Nykyinen hinta")
@@ -73,4 +77,9 @@ def plot_elecprice(data):
 	plt.xlabel("Aika", fontsize=14)
 	plt.ylabel("Hinta (EUR/kWh)", fontsize=14)
 	plt.grid(True)
-	plt.show()
+
+	if fname:
+		plt.savefig(fname)
+
+	if not hide:
+		plt.show()
