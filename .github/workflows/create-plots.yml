@@ -25,10 +25,13 @@ jobs:
       run: mkdir output
 
     - name: Run
+      env:
+        FG_API_KEY: ${{ secrets.FG_API_KEY }}
+        ENTSOE_API_KEY: ${{ secrets.ENTSOE_API_KEY }}
       run: |
        datestring=`date +"%Y%m%d_%H%M"`
-       python3 src/main.py price   plot --hide --save output/${datestring}_price.png
-       python3 src/main.py fingrid plot --hide --save output/${datestring}_status.png
+       python3 src/main.py --api-key $ENTSOE_API_KEY price   plot --hide --save output/${datestring}_price.png
+       python3 src/main.py --api-key $FG_API_KEY     fingrid plot --hide --save output/${datestring}_status.png
 
     - name: Upload images
       uses: actions/upload-artifact@v3
