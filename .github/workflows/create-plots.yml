@@ -2,7 +2,7 @@ name: Create plots
 
 on:
   push:
-    branches: *
+    branches: '*'
   schedule:
     cron: '00 14 * * *'
 
@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout
-	
+
     - name: Check versions
       run: | 
         python3 --version
@@ -29,9 +29,9 @@ jobs:
        datestring=`date +"%Y%m%d_%H%M"`
        python3 src/main.py price   plot --hide --save output/${datestring}_price.png
        python3 src/main.py fingrid plot --hide --save output/${datestring}_status.png
-       
+
     - name: Upload images
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact
       with:
        name: Images
        path: output
