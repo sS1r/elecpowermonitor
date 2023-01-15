@@ -1,0 +1,37 @@
+name: Create plots
+
+on:
+  push:
+    branches: *
+  schedule:
+    cron: '00 14 * * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout
+	
+    - name: Check versions
+      run: | 
+        python3 --version
+
+    - name: Setup python
+      run: python3 -m pip install numpy matplotlib requests
+
+    - name: Make output dir
+      run: mkdir output
+
+    - name: Run
+      run: |
+       datestring=`date +"%Y%m%d_%H%M"`
+       python3 src/main.py price   plot --hide --save output/${datestring}_price.png
+       python3 src/main.py fingrid plot --hide --save output/${datestring}_status.png
+       
+    - name: Upload images
+      uses: actions/upload-artifact@v2
+      with:
+       name: Images
+       path: output
