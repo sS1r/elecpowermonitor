@@ -31,12 +31,12 @@ class fingridApi():
 		self.vars.append(fingridVariable(id=192, string="production",          name="Tuotanto"))
 		self.vars.append(fingridVariable(id=193, string="consumption",         name="Kulutus")) 
 		self.vars.append(fingridVariable(id=194, string="import",              name="Tuonti"))
-		self.vars.append(fingridVariable(id=195, string="import_russia",       name="Tuonti Venäjältä"))
-		self.vars.append(fingridVariable(id=180, string="import_estonia",      name="Tuonti Virosta"))
-		self.vars.append(fingridVariable(id=187, string="import_norway",       name="Tuonti Norjasta"))
-		self.vars.append(fingridVariable(id=87,  string="import_sweden",       name="Tuonti Pohjois-Ruotsista"))
-		self.vars.append(fingridVariable(id=89,  string="import_sweden_mid",   name="Tuonti Keski-Ruotsista"))
-		self.vars.append(fingridVariable(id=90,  string="import_sweden_aland", name="Tuonti Ruotsista (Ahv.m.)"))
+		self.vars.append(fingridVariable(id=195, string="import_russia",       name="Venäjä"))
+		self.vars.append(fingridVariable(id=180, string="import_estonia",      name="Viro"))
+		self.vars.append(fingridVariable(id=187, string="import_norway",       name="Norja"))
+		self.vars.append(fingridVariable(id=87,  string="import_sweden",       name="Pohjois-Ruotsi"))
+		self.vars.append(fingridVariable(id=89,  string="import_sweden_mid",   name="Keski-Ruotsi"))
+		self.vars.append(fingridVariable(id=90,  string="import_sweden_aland", name="Ruotsi (Ahv.m.)"))
 		
 
 		self.interval = interval
