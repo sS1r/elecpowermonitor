@@ -7,6 +7,7 @@ Mainly used for fetching electricity market price, which is not available on Fin
 '''
 
 import requests
+import pandas
 import re
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
@@ -14,8 +15,7 @@ from datetime import datetime, timedelta, timezone
 
 class timeSeriesData():
 	def __init__(self):
-		self.prices = []
-		self.time = []
+		self.data = pandas.DataFrame(columns=("time", "price"))
 
 	# Adds a block of data to time series
 	# The data must not overlap the existing data
@@ -27,15 +27,15 @@ class timeSeriesData():
 		interval = (t_end - t_start) / len(prices)
 		times = [t_start + i * interval for i in range(len(prices))]
 
-		if not self.time:
-			self.prices = prices
-			self.time = times
-		elif t_end < self.time[0]:
-			self.prices = prices + self.prices
-			self.time   = times + self.time
-		elif t_start > self.time[-1]:
-			self.prices = self.prices + prices
-			self.time   = self.time + times
+		newdata = pandas.DataFrame(index=times, data={"price" : prices})
+		newdata.index.name = "time"
+
+		if self.data.empty:
+			self.data = newdata
+		elif t_end < self.data.index[0]:
+			self.data = pandas.concat([newdata, self.data])
+		elif t_start > self.data.index[-1]:
+			self.data = pandas.concat([self.data, newdata])
 		else:
 			return False
 		return True
