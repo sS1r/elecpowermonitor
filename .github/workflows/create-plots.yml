@@ -18,8 +18,10 @@ jobs:
       run: | 
         python3 --version
 
-    - name: Setup python
-      run: python3 -m pip install numpy matplotlib requests
+    - name: Setup
+      run: |
+        sudo timedatectl set-timezone Europe/Helsinki
+        python3 -m pip install numpy matplotlib requests
 
     - name: Make output dir
       run: mkdir output
