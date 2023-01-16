@@ -129,9 +129,18 @@ class entsoeApi():
 		return self.data
 
 	def save_data(self, filename, format):
-		if self.data:
-			pass
+		assert type(format) is str
+		format = format.lower()
 
+		if self.data:
+			if format == "csv":
+				self.data.data.to_csv(filename)
+			elif format == "excel":
+				self.data.data.to_excel(filename)
+			elif format == "json":
+				self.data.data.to_json(filename)
+			elif format == "text":
+				self.data.data.to_string(filename)
 	# Todo
 	def server_up(self):
 		return True

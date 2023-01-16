@@ -10,7 +10,7 @@ API_URL_ENTSOE = 'https://web-api.tp.entsoe.eu/api?'
 KEYFILE_FG = './key_fg.txt'
 KEYFILE_ENTSOE = './key_entsoe.txt'
 
-DATA_FORMAT_OPTIONS = ['CSV', 'XLSX', 'JSON', 'TXT']
+DATA_FORMAT_OPTIONS = ['CSV', 'EXCEL', 'JSON', 'TEXT']
 
 
 '''
