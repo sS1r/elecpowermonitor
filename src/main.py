@@ -18,8 +18,8 @@ Opens API key and sends request to fetch data from it
 
 Returns: API object if successful, None otherwise
 '''
-def run_api(api_key, url, api_class):
-	api = api_class(url=url, api_key=api_key)
+def run_api(api_key, url, api_class, **kwargs):
+	api = api_class(url=url, api_key=api_key, **kwargs)
 	if api.server_up():
 		if api.send_request():
 			return api
@@ -59,7 +59,10 @@ def main(ctx, api_key, api_keyfile):
 
 @main.group()
 @click.pass_context
-def price(ctx):
+@click.option('--vat', required=False,  nargs=1, type=float, default=0.0, help='Specifies value added tax as % (default 0.0%)')
+def price(ctx, vat):
+	ctx.ensure_object(dict)
+	ctx.obj["vat"] = vat
 	resolve_api_key(ctx, KEYFILE_ENTSOE)
 
 @main.group()
@@ -72,7 +75,7 @@ def fingrid(ctx):
 @click.option('--save', required=False,  nargs=1, type=str, help='Save the image with given file name')
 @click.pass_context
 def plot(ctx, hide, save):
-	api = run_api(api_key=ctx.obj["api_key"], url=API_URL_ENTSOE, api_class=entsoeApi)
+	api = run_api(api_key=ctx.obj["api_key"], url=API_URL_ENTSOE, api_class=entsoeApi, vat=ctx.obj["vat"])
 	if api:
 		plot_elecprice(api.get_data(), hide=hide, fname=save)
 
@@ -81,7 +84,7 @@ def plot(ctx, hide, save):
 @click.option('--filename', required=False, nargs=1, type=str, help='Filename')
 @click.pass_context
 def fetch(ctx, format, filename):
-	api = run_api(api_key=ctx.obj["api_key"], url=API_URL_ENTSOE, api_class=entsoeApi)
+	api = run_api(api_key=ctx.obj["api_key"], url=API_URL_ENTSOE, api_class=entsoeApi, vat=ctx.obj["vat"])
 	if api:
 		api.save_data(filename, format)
 

@@ -3,7 +3,6 @@
 ## Tarkoitus
 Työkalun avulla pystyy hakemaan Suomen sähköjärjestelmän tilatietoja sekä pörssisähkön hintatietoja.
 Työkalu hakee tietonsa Fingridin ja ENTSOE:n tarjoamista rajapinnoista, ja esittää datan graafisesti käyttäjälle.
-Huomioithan, että pörssisähkön hintatiedot EIVÄT tällä hetkellä sisällä arvonlisäveroa.
 
 ## Vaatimukset
 Python-tulkki tulee olla asennettuna. Lisäksi seuraavat paketit vaaditaan:
@@ -31,9 +30,9 @@ ja ENTSOE:een
 [tästä](https://transparency.entsoe.eu/).
 
 ### Esimerkkejä:
-Piirrä pörssisähkön hintatiedot interaktiiviseen ikkunaan:
+Piirrä pörssisähkön hintatiedot interaktiiviseen ikkunaan 24% arvonlisäverolla:
 
-```py src\main.py price plot```
+```py src\main.py price --vat 24.0 plot```
 
 Komennolla tuotettu kuva:
 ![hinnat](img/hintakayra.png)

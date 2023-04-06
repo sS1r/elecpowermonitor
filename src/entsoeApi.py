@@ -41,7 +41,7 @@ class timeSeriesData():
 		return True
 
 class entsoeApi():
-	def __init__(self, url, api_key, vat=0.0):
+	def __init__(self, url, api_key, vat):
 		self.url = url
 		self.token = api_key
 		self.data = None
@@ -92,6 +92,7 @@ class entsoeApi():
 			pricedata = [0] * len(points)
 			for p in points:
 				price = float(p.find("ns:price.amount", namespaces=ns).text) / 1000.0
+				price = price * (1.0 + self.vat / 100.0)
 				pos = int(p.find("ns:position", namespaces=ns).text)
 				pricedata[pos - 1] = price
 
