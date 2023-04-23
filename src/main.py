@@ -77,7 +77,7 @@ def fingrid(ctx):
 def plot(ctx, hide, save):
 	api = run_api(api_key=ctx.obj["api_key"], url=API_URL_ENTSOE, api_class=entsoeApi, vat=ctx.obj["vat"])
 	if api:
-		plot_elecprice(api.get_data(), hide=hide, fname=save)
+		plot_elecprice(api, hide=hide, fname=save)
 
 @price.command(name="fetch")
 @click.option('--format',   required=False, nargs=1, type=click.Choice(DATA_FORMAT_OPTIONS, case_sensitive=False), help='Data format')

@@ -45,8 +45,9 @@ def plot_data(data, hide=False, fname=None):
 	if not hide:
 		plt.show()
 
-def plot_elecprice(data, hide=False, fname=None):
+def plot_elecprice(api, hide=False, fname=None):
 
+	data = api.get_data()
 	now = datetime.now()
 	nowstr = now.strftime("%d.%m.%Y klo %H:%M")
 	for t in data.data.index:
