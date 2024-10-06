@@ -32,9 +32,9 @@ class timeSeriesData():
 
 		if self.data.empty:
 			self.data = newdata
-		elif t_end < self.data.index[0]:
+		elif t_end <= self.data.index[0]:
 			self.data = pandas.concat([newdata, self.data])
-		elif t_start > self.data.index[-1]:
+		elif t_start >= self.data.index[-1]:
 			self.data = pandas.concat([self.data, newdata])
 		else:
 			return False
@@ -69,35 +69,37 @@ class entsoeApi():
 		tsdata = timeSeriesData()
 		for ts in timeSeries:
 
-			# Find period
-			period = ts.findall("ns:Period", namespaces=ns)
-			if not period or len(period) != 1:
-				raise RuntimeError('Could not parse time series')
+			# Find period(s)
+			periods = ts.findall("ns:Period", namespaces=ns)
+			if not periods:
+				raise RuntimeError('Time series data not found')
 
-			# Find start and end times from period
-			interval = period[0].find("ns:timeInterval", namespaces=ns)
-			t_start_str = interval.find("ns:start", namespaces=ns).text
-			t_end_str = interval.find("ns:end", namespaces=ns).text
+			# Iterate periods
+			for period in periods:
+				# Find start and end times from period
+				interval = period.find("ns:timeInterval", namespaces=ns)
+				t_start_str = interval.find("ns:start", namespaces=ns).text
+				t_end_str = interval.find("ns:end", namespaces=ns).text
 
-			# Resolve time from the strings (ISO format)
-			t_str_format = "%Y-%m-%dT%H:%MZ"
-			tz_offset = datetime.now().astimezone().utcoffset()
-			t_start = datetime.strptime(t_start_str, t_str_format) + tz_offset
-			t_end = datetime.strptime(t_end_str, t_str_format) + tz_offset
+				# Resolve time from the strings (ISO format)
+				t_str_format = "%Y-%m-%dT%H:%MZ"
+				tz_offset = datetime.now().astimezone().utcoffset()
+				t_start = datetime.strptime(t_start_str, t_str_format) + tz_offset
+				t_end = datetime.strptime(t_end_str, t_str_format) + tz_offset
 
-			# Find points from period
-			points = period[0].findall("ns:Point", namespaces=ns)
+				# Find points from period
+				points = period.findall("ns:Point", namespaces=ns)
 
-			# Find prices
-			pricedata = [0] * len(points)
-			for p in points:
-				price = float(p.find("ns:price.amount", namespaces=ns).text) / 1000.0
-				price = price * (1.0 + self.vat / 100.0)
-				pos = int(p.find("ns:position", namespaces=ns).text)
-				pricedata[pos - 1] = price
+				# Find prices
+				pricedata = [0] * len(points)
+				for p in points:
+					price = float(p.find("ns:price.amount", namespaces=ns).text) / 1000.0
+					price = price * (1.0 + self.vat / 100.0)
+					pos = int(p.find("ns:position", namespaces=ns).text)
+					pricedata[pos - 1] = price
 
-			# Append prices to data container
-			assert tsdata.append(pricedata, t_start, t_end)
+				# Append prices to data container
+				assert tsdata.append(pricedata, t_start, t_end)
 
 		return tsdata
 
