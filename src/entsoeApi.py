@@ -91,11 +91,11 @@ class entsoeApi():
 				points = period.findall("ns:Point", namespaces=ns)
 
 				# Find prices
-				pricedata = [0] * len(points)
-				for p in points:
-					price = float(p.find("ns:price.amount", namespaces=ns).text) / 1000.0
+				pricedata = [0] * max([int(point.find("ns:position", namespaces=ns).text) for point in points])
+				for point in points:
+					price = float(point.find("ns:price.amount", namespaces=ns).text) / 1000.0
 					price = price * (1.0 + self.vat / 100.0)
-					pos = int(p.find("ns:position", namespaces=ns).text)
+					pos = int(point.find("ns:position", namespaces=ns).text)
 					pricedata[pos - 1] = price
 
 				# Append prices to data container

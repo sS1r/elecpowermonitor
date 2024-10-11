@@ -93,7 +93,7 @@ def fetch(ctx, format, filename):
 @click.option('--save', required=False,  nargs=1, type=str, help='Save the image with given file name')
 @click.pass_context
 def plot(ctx, hide, save):
-	api = run_api(api_key=ctx.obj["api_key"], url=API_URL_FG, api_class=fingridApi)
+	api = run_api(api_key=ctx.obj["api_key"], url=API_URL_FG, api_class=fingridApi, interval=72)
 	if api:
 		plot_data(api.get_data(), hide=hide, fname=save)
 
